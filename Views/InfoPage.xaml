@@ -1,0 +1,80 @@
+﻿<Page
+    x:Class="Basic_Crud.Views.InfoPage"
+   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Basic_Crud"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:vm="using:Basic_Crud.ViewModels"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontSize="16">
+    <Page.Resources>
+        <vm:InfoPageViewModel x:Key="viewModel" />
+    </Page.Resources>
+
+    <Grid>
+        <Button VerticalAlignment="Top" Margin="20 20" Content="Go Back" Command="{Binding BackCommand}"/>
+        <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left" Margin="50">
+            <TextBlock TextAlignment="Center" Text="{Binding User.id}" />
+            <TextBlock TextAlignment="Center" Text="{Binding User.name}" Margin="0 10" />
+            <TextBlock TextAlignment="Center" Text="{Binding User.phone}" />
+        </StackPanel>
+
+
+        <Grid VerticalAlignment="Bottom" Margin="20 200" Width="auto">
+            <RelativePanel>
+                <controls:DataGrid x:Name="myDataGrid" Margin="20 20" AutoGenerateColumns="False"
+                           ItemsSource="{Binding Source={StaticResource viewModel}, Path=Todos}" SelectionMode="Single">
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTextColumn Header="Id" Binding="{Binding id}" IsReadOnly="True" Width="auto" />
+                        <controls:DataGridTextColumn Header="Title" Binding="{Binding title}" IsReadOnly="True" Width="auto" />
+                        <controls:DataGridTextColumn Header="Completed" Binding="{Binding completed}" IsReadOnly="True" Width="auto" />
+                  
+                        <controls:DataGridTemplateColumn>
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10">
+                                        <Button Content="Edit" Command="{Binding Source={StaticResource viewModel}, Path=EditTodoCommand}" CommandParameter="{Binding id}"></Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn>
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="10">
+                                        <Button Content="Delete" Command="{Binding Source={StaticResource viewModel}, Path=DeleteTodoCommand}" CommandParameter="{Binding id}"></Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+                <Popup IsOpen="{Binding Source={StaticResource viewModel}, Path=IsOpen}" x:Name="_Dialog" Height="500" Width="400"
+               LightDismissOverlayMode="On" IsLightDismissEnabled="True" RelativePanel.AlignHorizontalCenterWithPanel="True"
+                   RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <Popup.ChildTransitions>
+                        <TransitionCollection>
+                            <PaneThemeTransition Edge="Top" />
+                        </TransitionCollection>
+                    </Popup.ChildTransitions>
+                    <StackPanel DataContext="{Binding Source={StaticResource viewModel}, Path=SelectedTodo}"
+                            Height="{Binding ElementName=_Dialog,Path=Height}" Background="Black">
+                        <TextBox Margin="0 5" Text="{Binding id}" VerticalAlignment="Center" IsReadOnly="True" />
+                        <TextBox Margin="0 5" Text="{Binding title, Mode=TwoWay}" VerticalAlignment="Center" />
+                        <TextBox Margin="0 5" Text="{Binding completed, Mode=TwoWay}" VerticalAlignment="Center" />
+                        <Button Background="White" Content="Update" Command="{Binding Source={StaticResource viewModel}, Path=UpdateTodoCommand}" />
+                    </StackPanel>
+                </Popup>
+            </RelativePanel>
+        </Grid>
+
+
+    </Grid>
+
+
+
+</Page>

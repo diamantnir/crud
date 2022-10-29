@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Basic_Crud.Views.InfoPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Basic_Crud.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontSize="16">
+    <Grid>
+        <Button VerticalAlignment="Top" Margin="20" Content="Go Back" Command="{Binding BackCommand}"/>
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock TextAlignment="Center" Text="{Binding Profile.Id}" />
+            <TextBlock TextAlignment="Center" Text="{Binding Profile.FirstName}" Margin="0 10" />
+            <TextBlock TextAlignment="Center" Text="{Binding Profile.Phone}" />
+        </StackPanel>
+    </Grid>
+</Page>
+
